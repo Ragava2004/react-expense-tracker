@@ -1,144 +1,126 @@
-import "./App.css";
-import GameHeader from "./Componenets/GameHeader"
-import { Card } from "./Componenets/Card"
 import { useEffect, useState } from "react";
-import { WinMessage } from "./Componenets/WinMessage";
-
-const cardValues = [
-  "🌟",
-  "🔥",
-  "💡",
-  "🎯",
-  "🚀",
-  "📚",
-  "⚡",
-  "🌍",
-  "🌟",
-  "🔥",
-  "💡",
-  "🎯",
-  "🚀",
-  "📚",
-  "⚡",
-  "🌍"
-];
-
 function App() {
-  const[cards, setCards] = useState([]);
-  const[flippedCards, setFlippedCards] = useState([]);
-  const[matchedCards, setMatchedCards] = useState([]);
-  const[score, setScore] = useState(0);
-  const[moves, setMoves] = useState(0);
-  const[isLocked, setIsLocked] = useState(false);
+  const[name, setName] = useState("");
+  const[amount, setAmount] = useState("");
+  const[category, setCategory] = useState("");
+  const[filterCategory, setFilterCategory] = useState("");
+  const [expense, setExpense] = useState(() => {
+  const savedExpenses = localStorage.getItem("expenses");
 
-  const shuffleArray = (array) => {
-    const shuffled = [...array];
-    for(let i = shuffled.length-1; i>0; i--) {
-      const j = Math.floor(Math.random()*(i+1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  };
-  const initializeGame = () => {
-     //shuffle the cards
-     
-    const shuffled = shuffleArray(cardValues);
+  if (savedExpenses) {
+    return JSON.parse(savedExpenses);
+  }
 
-
-     const finalCards = shuffled.map((value,index)=>({
-        id : index,
-        value,
-        isFlipped : false,
-        isMatched : false
-     }));
-     setIsLocked(false);
-     setCards(finalCards);
-     setMoves(0);
-     setScore(0);
-     setMatchedCards([]);
-     setFlippedCards([]);
-  };
-
-  useEffect(()=>{
-    initializeGame();
-  },[])
-
-const handleCardClick = (card) => {
-    //dont allow for already clicked or matched
-    if(card.isFlipped || card.isMatched || isLocked || flippedCards.length === 2) {
+  return [];
+});
+  //adding expense
+  const addExpense = () => {
+    if(name === "" || amount === "" || category === "") {
+      alert("Please fill the input");
       return;
     }
-    const newCards = cards.map((c)=> {
-      if(c.id === card.id) {
-        return{...c, isFlipped: true};
-      } else {
-        return c;
-      }
+    setExpense([...expense, {name, amount, category}])
+    setName("");
+    setAmount("");
+    setCategory("");
+  }
+
+  //Deleting expense
+  const deleteExpense = (index) => {
+    const newExpense = expense.filter((e,i)=>{
+      return i !== index;
     })
-    setCards(newCards);
+    setExpense(newExpense)
+  }
+   //filtering
+  const filteredExpenses = expense.filter((e)=>{
+    if(filterCategory === "") return true;
+    return e.category === filterCategory;
+  })
+  //
+  ///total expense
+  const totalExpense = filteredExpenses.reduce((total,item)=>{
+    return total+Number(item.amount);
+  },0);
+  
+  
 
-    const newFlippedCards = [...flippedCards, card.id]
-    setFlippedCards(newFlippedCards);
-    // check for match if two cards are flipped
-    if(flippedCards.length === 1) {
-      setIsLocked(true);
-      const firstCard = cards[flippedCards[0]];
+  
+  useEffect(()=>{
+    localStorage.setItem("expenses", JSON.stringify(expense));
+  },[expense]);
+ 
+  useEffect(()=>{
+    const savedExpenses = localStorage.getItem("expenses");
+    console.log("Saved:", savedExpenses);
 
-      if(firstCard.value === card.value) {
-        setTimeout(() => {
-        setMatchedCards((prev)=>[...prev, firstCard.id, card.id]);
-        setScore((prev)=>prev+1);
-        const newMatchedCards = cards.map((c)=> {
-      if(c.id === card.id || c.id === firstCard.id) {
-        return{...c, isMatched: true};
-      } else {
-        return c;
-      }
-    })
-    setCards((prev) => prev.map((c)=> {
-      if(c.id === card.id || c.id === firstCard.id) {
-        return{...c, isMatched: true};
-      } else {
-        return c;
-      }
-    }));
-    setFlippedCards([])
-    setIsLocked(false);
-  }, 500);
-      }
-      else {
-        setTimeout(()=>{
-          const flippedBackCard = newCards.map((c)=>{
-           if(newFlippedCards.includes(c.id) || c.id === card.id) {
-            return {...c, isFlipped: false};
-           } else {
-            return c;
-           }
-         });
-         setCards(flippedBackCard);
-         
-         setFlippedCards([]);
-         setIsLocked(false);
-        },1000)
-        
-      }
+    if(savedExpenses) {
+    const parsedExpenses = JSON.parse(savedExpenses);
+    setExpense(parsedExpenses);
+  }
+  },[])
+  
 
-      setMoves((prev) => prev+1);
-    }
-};
-const isGameComplete = matchedCards.length === cardValues.length;
-  return(
-    <div className="app">
-        <GameHeader score={score} moves={moves} onReset={initializeGame}/>
-        {isGameComplete && <WinMessage moves={moves} /> }
-
-        <div className="cards-grid">
-          {cards.map((card) => (
-            <Card card={card} onClick={handleCardClick}/>
-          ))}
+    return(
+      <div className="app">
+        <h1>Expense Tracker</h1>
+        {/* Form Section */}
+        <div className="expense-card">
+          <h3>Expense Name</h3>
+          <input type="text" placeholder="Movies" value={name} onChange={(e)=>setName(e.target.value)}></input>
+          <h3>Amount</h3>
+          <input type="number" placeholder="60" value={amount} onChange={(e)=>setAmount(e.target.value)}></input>
+          
+          <select value={category} onChange={(e)=>setCategory(e.target.value)}>
+            <option value="">Select the category</option>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Entertaiment">Entertaiment</option>
+          </select>
+          
+          <button className="add-btn" onClick={addExpense}>
+          Add Expense
+          </button>  
         </div>
-    </div>
-  );
+
+      {/*Filter setion*/}
+      <div className="filter-section">
+        <select value={filterCategory} onChange={(e)=>setFilterCategory(e.target.value)}>
+          <option value="">Show all the category (filter) </option>
+          <option value="Food">Food</option>
+          <option value="Travel">Travel</option>
+          <option value="Entertaiment">Entertaiment</option>
+        </select>
+      </div>
+
+      {/* Expense List */}
+      <div className="expense-list">
+        {filteredExpenses.length === 0 ? (
+          <div className="empty-state">
+            No expenses found.
+          </div>
+          ) : (
+            filteredExpenses.map((e, index)=>{
+            return(
+              <div className="expense-item" key={index}>
+                <div>
+                  <strong>{e.name}</strong>
+                  <p>₹{e.amount}</p>
+                  <span className="category-badge">
+                    {e.category}
+                  </span>
+                </div>
+                <button onClick={()=>deleteExpense(index)} className="delete-btn">Delete</button>
+              </div>
+            );
+          })
+        )}
+      </div>
+        <div className="total-expense">
+          Total Expense: ₹{totalExpense}
+        </div>
+      </div>
+    );
 }
 
 export default App;
