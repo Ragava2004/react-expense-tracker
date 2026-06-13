@@ -1,16 +1,120 @@
-# React + Vite
+# 💰 Expense Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern Expense Tracker built with React that helps users manage daily expenses, categorize spending, filter expenses, and track total spending. Data is persisted using Local Storage, so expenses remain available even after refreshing the page.
 
-Currently, two official plugins are available:
+## 🌐 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🚀 Live Application: https://react-expense-tracker-puce.vercel.app/
 
-## React Compiler
+## 📸 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- ✅ Add expenses with name, amount, and category
+- ✅ Delete expenses
+- ✅ Filter expenses by category
+- ✅ Dynamic total expense calculation
+- ✅ Local Storage persistence
+- ✅ Responsive and modern UI
+- ✅ Empty state handling
+- ✅ Real-time updates
 
-## Expanding the ESLint configuration
+## 🛠️ Technologies Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- JavaScript (ES6+)
+- HTML5
+- CSS3
+- React Hooks
+  - useState
+  - useEffect
+- Local Storage API
+
+## 📂 Categories
+
+The application supports:
+
+- 🍔 Food
+- ✈️ Travel
+- 🎬 Entertainment
+
+## 🚀 Getting Started
+
+### Clone the repository
+
+```bash
+git clone https://github.com/Ragava2004/react-expense-tracker.git
+```
+
+### Navigate to project directory
+
+```bash
+cd react-expense-tracker
+```
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run the development server
+
+```bash
+npm run dev
+```
+
+## 📖 How It Works
+
+### Adding Expenses
+
+Users can enter:
+
+- Expense Name
+- Amount
+- Category
+
+and add them to the expense list.
+
+### Filtering
+
+Expenses can be filtered by category to view specific spending patterns.
+
+### Total Calculation
+
+The total expense is calculated dynamically using JavaScript's `reduce()` method.
+
+### Local Storage
+
+All expenses are automatically saved in the browser's Local Storage and restored when the page reloads.
+
+## 🎯 Learning Outcomes
+
+This project helped me practice:
+
+- React State Management
+- React Hooks
+- Array Methods
+  - map()
+  - filter()
+  - reduce()
+- Controlled Components
+- Form Handling
+- Local Storage
+- Component-Based UI Development
+- Responsive Design
+
+## 📸 Preview
+
+Visit the live application:
+
+https://react-expense-tracker-puce.vercel.app/
+
+## 👨‍💻 Author
+
+**Ragavendiran P**
+
+- GitHub: https://github.com/Ragava2004
+- LinkedIn: https://www.linkedin.com/in/ragavendiran-p-89b632257
+
+---
+
+⭐ If you like this project, feel free to star the repository.
