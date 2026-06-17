@@ -108,13 +108,5 @@ Visit the live application:
 
 https://react-expense-tracker-puce.vercel.app/
 
-## 👨‍💻 Author
-
-**Ragavendiran P**
-
-- GitHub: https://github.com/Ragava2004
-- LinkedIn: https://www.linkedin.com/in/ragavendiran-p-89b632257
-
----
 
 ⭐ If you like this project, feel free to star the repository.
