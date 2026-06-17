@@ -2,6 +2,8 @@
 
 A modern Expense Tracker built with React that helps users manage daily expenses, categorize spending, filter expenses, and track total spending. Data is persisted using Local Storage, so expenses remain available even after refreshing the page.
 
+![demo](react-expense-tracker.gif);
+
 ## 🌐 Live Demo
 
 🚀 Live Application: https://react-expense-tracker-puce.vercel.app/
